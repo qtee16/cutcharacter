@@ -88,33 +88,9 @@ if (len(LpImg)):
                 # Ve khung chu nhat quanh so
                 cv2.rectangle(roi, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-                # Tach so va predict
-                curr_num = thre_mor[y:y+h,x:x+w]
-                curr_num = cv2.resize(curr_num, dsize=(digit_w, digit_h))
-                _, curr_num = cv2.threshold(curr_num, 30, 255, cv2.THRESH_BINARY)
-                curr_num = np.array(curr_num,dtype=np.float32)
-                curr_num = curr_num.reshape(-1, digit_w * digit_h)
-
-                # Dua vao model SVM
-                result = model_svm.predict(curr_num)[1]
-                result = int(result[0, 0])
-
-                if result<=9: # Neu la so thi hien thi luon
-                    result = str(result)
-                else: #Neu la chu thi chuyen bang ASCII
-                    result = chr(result)
-
-                plate_info +=result
+                
 
     cv2.imshow("Cac contour tim duoc", roi)
-    cv2.waitKey()
-
-    # Viet bien so len anh
-    cv2.putText(Ivehicle,fine_tune(plate_info),(50, 50), cv2.FONT_HERSHEY_PLAIN, 3.0, (0, 0, 255), lineType=cv2.LINE_AA)
-
-    # Hien thi anh
-    print("Bien so=", plate_info)
-    cv2.imshow("Hinh anh output",Ivehicle)
     cv2.waitKey()
 
 
